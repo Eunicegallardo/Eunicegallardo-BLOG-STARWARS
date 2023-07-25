@@ -1,13 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
-const CardPlanets = ({Planets}) => {
-    const { idPlanets, namePlanet, imagePlanet, descriptionPopulation, descripctionTerrain } = Planets;
+const CardPlanets = ({planets}) => {
+    console.log(planets);
+    const {idPlanets, namePlanets, imagePlanets, descriptionPopulation, descripctionTerrain } = planets;
     return (
         <div>
             <div className="card me-2" style={{ width: "18rem" }}>
-                <img src={imagePlanet} className="card-img-top" alt="img" />
+                <img src={imagePlanets} className="card-img-top" alt="img" />
                 <div className="card-body">
-                    <h5 className="card-title">{namePlanet} </h5>
+                    <h5 className="card-title">{namePlanets} </h5>
                     <p className="card-text">{descriptionPopulation}</p>
                     <p className="card-text">{descripctionTerrain}</p>
 

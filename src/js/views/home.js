@@ -4,10 +4,10 @@ import Characters from "./Characters";
 import Planets from "./Planets";
 
 export const Home = () => (
-	<div className="Container ms-5 mt-5">
-		<h1 className="text-danger">Characters</h1>
+	<div className="container ms-5 mt-5">
+		<h1 className="text-danger text-center m-2">Characters</h1>
 		<Characters />
-		<h1 className="text-danger">Planets</h1>
+		<h1 className="text-danger text-center m-2">Planets</h1>
 		<Planets />
 	</div>
 );

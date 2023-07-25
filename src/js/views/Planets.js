@@ -3,7 +3,7 @@ import CardPlanets from '../component/CardPlanets';
 
 const Planets = () => {
     const [planets, setPlanets] = useState([]);
-    const apiStarwarsPlanets = 'https://www.swapi.tech/api/planets/';
+    const apiStarwarsPlanets = 'https://www.swapi.tech/api/planets';
 
     useEffect(() => {
         fetch(apiStarwarsPlanets)
@@ -35,7 +35,7 @@ const Planets = () => {
         <div className='container-card mb-5'>
             {
                 planets.map((planets) => (
-                    <CardPlanets key={planets.idPlanets} character={planets} />
+                    <CardPlanets key={planets.idPlanets} planets={planets} />
                 ))
             }
 
