@@ -1,44 +1,36 @@
-import React, { useState, useEffect } from 'react'
-import CardCharacters from '../component/CardCharacters';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom';
+import { Context } from '../store/appContext';
+
+
 
 const Characters = () => {
-    const [characters, setCharacters] = useState([]);
-    const apiStarwars = 'https://www.swapi.tech/api/people';
-
-    useEffect(() => {
-        fetch(apiStarwars)
-            .then(response => response.json())
-            .then(data => {
-                const charactersInfo = data.results.map(result => result.url);
-
-                Promise.all(
-                    charactersInfo.map(url =>
-                        fetch(url).then(response => response.json()))
-                )
-                    .then(dataCharacters => {
-                        const charactersproperties = dataCharacters.map(data => ({
-                            id: data.result.uid,
-                            name: data.result.properties.name,
-                            image: `https://starwars-visualguide.com/assets/img/characters/${data.result.uid}.jpg`,
-                            descriptionHeight: `Height: ${data.result.properties.height} cm`,
-                            descripctionMass: `Mass: ${data.result.properties.mass} kg`,
-                            descriptionEyesColor: `Eyes color: ${data.result.properties.eye_color}`
-
-                        }));
-                        setCharacters(charactersproperties);
-                    })
-                    .catch(err => err)
-            })
-            .catch(err => err)
-    }, []);
-
+    const { store, actions } = useContext(Context)
     return (
         <div className='container-card mb-5'>
-            {
-                characters.map((character) => (
-                    <CardCharacters key={character.id} character={character} />
-                ))
-            }
+            {store.characterStarWars.map((character, index) => {
+                return <div key={index} className="custom-card m-2 border rounded">
+                    <img className="card-img-top custom-img" src={`https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg`} alt="img" />
+                    <div className="card-body">
+                        <h5 className="card-title">{character.name}</h5>
+                        <p className="card-text" >{character.population}</p>
+                        <p className="card-text"> Mass:{character.mass}</p>
+                        <p className="card-text"> Eye Color:{character.eye_color}</p>
+
+                        {/* boton de learnmore */}
+
+                        <Link to={"/"} >
+                            <button type='button' className='btn btn-warning me-3'>
+                                Learn more
+                            </button>
+                        </Link>
+
+                        <button type='button' className='btn btn-danger'>
+                            ♡
+                        </button>
+                    </div>
+                </div>
+            })}
 
         </div>
     );

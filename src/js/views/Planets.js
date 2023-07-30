@@ -1,46 +1,40 @@
-import React, { useState, useEffect } from 'react'
-import CardPlanets from '../component/CardPlanets';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom';
+import { Context } from '../store/appContext';
 
 const Planets = () => {
-    const [planets, setPlanets] = useState([]);
-    const apiStarwarsPlanets = 'https://www.swapi.tech/api/planets';
-
-    useEffect(() => {
-        fetch(apiStarwarsPlanets)
-            .then(response => response.json())
-            .then(data => {
-                const planetsInfo = data.results.map(result => result.url);
-
-                Promise.all(
-                    planetsInfo.map(url =>
-                        fetch(url).then(response => response.json()))
-                )
-                    .then(dataPlanets => {
-                        const Planetsproperties = dataPlanets.map(data => ({
-                            idPlanets: data.result.uid,
-                            namePlanets: data.result.properties.name,
-                            imagePlanets: `https://starwars-visualguide.com/assets/img/planets/${data.result.uid}.jpg`,
-                            descriptionPopulation: `Population: ${data.result.properties.population}`,
-                            descripctionTerrain: `Terrain: ${data.result.properties.terrain}`,
-
-                        }));
-                        setPlanets(Planetsproperties);
-                    })
-                    .catch(err => err)
-            })
-            .catch(err => err)
-    }, []);
-
+    const { store, actions } = useContext(Context)
+    
     return (
         <div className='container-card mb-5'>
-            {
-                planets.map((planets) => (
-                    <CardPlanets key={planets.idPlanets} planets={planets} />
-                ))
-            }
+            {store.planetsStarWars.map((planet, index) => {
+                return <div key={index} className="custom-card m-2 border rounded">
+                    <img className="card-img-top custom-img" src={`https://starwars-visualguide.com/assets/img/planets/${index + 1}.jpg`} alt="img" />
+                    <div className="card-body">
+                        <h5 className="card-title">{planet.name}</h5>
+                        <p className="card-text">Population:{planet.population}</p>
+                        <p className="card-text"> Terrain:{planet.terrain}</p>
+
+                        {/* boton de learnmore */}
+
+                        <Link to={"/"} >
+                            <button type='button' className='btn btn-warning me-3'>
+                                Learn more
+                            </button>
+                        </Link>
+
+                        <button type='button' className='btn btn-danger'>
+                            ♡
+                        </button>
+                    </div>
+                </div>
+            })}
 
         </div>
-    )
+    );
 }
 
 export default Planets
+
+
+
